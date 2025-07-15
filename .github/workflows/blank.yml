@@ -12,16 +12,48 @@ jobs:
       run: |
         sudo apt update 
         sudo apt upgrade -y
-        sudo apt install -y fluxbox xterm wget curl python3 
+        sudo apt install -y fluxbox xterm wget curl python3
 
-        # Download and install Chrome Remote Desktop
+        # Install CRD
         wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
         sudo dpkg -i chrome-remote-desktop_current_amd64.deb || sudo apt -f install -y
 
-   
+    - name: Install Playwright + Chromium dependencies
+      run: |
+        sudo apt install -y \
+          libdbus-1-3 \
+          libatk1.0-0 \
+          libatk-bridge2.0-0 \
+          libcups2 \
+          libdrm2 \
+          libxkbcommon0 \
+          libxcomposite1 \
+          libxdamage1 \
+          libxfixes3 \
+          libxrandr2 \
+          libgbm1 \
+          libpango-1.0-0 \
+          libcairo2 \
+          libasound2 \
+          libatspi2.0-0 \
+          libnss3 \
+          libxss1 \
+          libxtst6 \
+          libgtk-3-0 \
+          libx11-xcb1
+
+        # Optional: install fonts for better rendering
+        sudo apt install -y fonts-liberation libappindicator3-1 xdg-utils
+
+        # Install node + playwright
+        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        sudo apt install -y nodejs
+        npm install -g playwright
+        playwright install chromium
+
     - name: Authenticate CRD
       run: |
-        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJhFNCnOtsrATi44FTBcQW6SJxQwH_XtXUr06Uj061XdI8tWtktK5BTs_A1aGVpAtQ" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
-    - name: sleep
-      run: |
-       sleep 200000000
+        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJha_RMraXqHLXq8HLxMXR5ytWrCUw3k8iAcz5tH9e1S0cyhlqFrkVa1RmM2PD7ihQ" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
+
+    - name: Keep machine alive
+      run: sleep 31536000
