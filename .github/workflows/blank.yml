@@ -14,7 +14,7 @@ jobs:
         sudo apt upgrade -y
         sudo apt install -y fluxbox xterm wget curl python3
 
-        # Install CRD
+        # Install Chrome Remote Desktop
         wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
         sudo dpkg -i chrome-remote-desktop_current_amd64.deb || sudo apt -f install -y
 
@@ -34,7 +34,7 @@ jobs:
           libgbm1 \
           libpango-1.0-0 \
           libcairo2 \
-          libasound2 \
+          libasound2t64 \
           libatspi2.0-0 \
           libnss3 \
           libxss1 \
@@ -45,7 +45,7 @@ jobs:
         # Optional: install fonts for better rendering
         sudo apt install -y fonts-liberation libappindicator3-1 xdg-utils
 
-        # Install node + playwright
+        # Install Node.js + Playwright
         curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
         sudo apt install -y nodejs
         npm install -g playwright
@@ -53,7 +53,10 @@ jobs:
 
     - name: Authenticate CRD
       run: |
-        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJha_RMraXqHLXq8HLxMXR5ytWrCUw3k8iAcz5tH9e1S0cyhlqFrkVa1RmM2PD7ihQ" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
+        DISPLAY= /opt/google/chrome-remote-desktop/start-host \
+          --code="4/0AVMBsJha_RMraXqHLXq8HLxMXR5ytWrCUw3k8iAcz5tH9e1S0cyhlqFrkVa1RmM2PD7ihQ" \
+          --redirect-url="https://remotedesktop.google.com/_/oauthredirect" \
+          --name=$(hostname) --pin=111111
 
     - name: Keep machine alive
       run: sleep 31536000
