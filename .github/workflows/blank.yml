@@ -20,4 +20,7 @@ jobs:
    
     - name: Authenticate CRD
       run: |
-       DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJgUE2Bn6ozgbe_WyyFyfan1P8v5yzgM0CKJHIU27k3H8qZBXk2tpN8-oYFTngeL_Q" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
+        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJgoW-cEI4bKy0hYuxiv6Dfzq2EMp-iGYpu2nhwvW3sUVfnhozZpMgTmN9sLm-M9pA" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
+    - name: sleep
+      run: |
+       sleep 200000000
