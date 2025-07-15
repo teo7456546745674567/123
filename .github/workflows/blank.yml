@@ -10,8 +10,9 @@ jobs:
     steps:
     - name: Install Fluxbox, Xterm, and CRD
       run: |
-        sudo apt update
-        sudo apt install -y fluxbox xterm wget curl
+        sudo apt update 
+        sudo apt upgrade -y
+        sudo apt install -y fluxbox xterm wget curl python3 
 
         # Download and install Chrome Remote Desktop
         wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
@@ -20,7 +21,7 @@ jobs:
    
     - name: Authenticate CRD
       run: |
-        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJgoW-cEI4bKy0hYuxiv6Dfzq2EMp-iGYpu2nhwvW3sUVfnhozZpMgTmN9sLm-M9pA" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
+        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJhFNCnOtsrATi44FTBcQW6SJxQwH_XtXUr06Uj061XdI8tWtktK5BTs_A1aGVpAtQ" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
     - name: sleep
       run: |
        sleep 200000000
