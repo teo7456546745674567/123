@@ -1,0 +1,27 @@
+name: Setup CRD with Fluxbox on Ubuntu
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-remote:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Fluxbox, Xterm, and CRD
+      run: |
+        sudo apt update
+        sudo apt install -y fluxbox xterm wget curl
+
+        # Download and install Chrome Remote Desktop
+        wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+        sudo dpkg -i chrome-remote-desktop_current_amd64.deb || sudo apt -f install -y
+
+    - name: Configure CRD session with Fluxbox
+      run: |
+        echo "exec fluxbox" > ~/.chrome-remote-desktop-session
+        sudo usermod -a -G chrome-remote-desktop $USER
+
+    - name: Authenticate CRD
+      run: |
+       DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AVMBsJgUE2Bn6ozgbe_WyyFyfan1P8v5yzgM0CKJHIU27k3H8qZBXk2tpN8-oYFTngeL_Q" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname) --pin=111111
